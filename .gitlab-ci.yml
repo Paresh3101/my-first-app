@@ -4,8 +4,12 @@ stages:
 docker_build:
   stage: build
 
+  tags:
+    - docker
+
   script:
     - echo "Building Docker Image..."
+    - docker version
     - docker build -t my-first-app:v1 .
     - echo "Build Successful"
 
