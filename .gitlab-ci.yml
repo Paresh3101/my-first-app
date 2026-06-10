@@ -1,0 +1,13 @@
+stages:
+  - build
+
+docker_build:
+  stage: build
+
+  script:
+    - echo "Building Docker Image..."
+    - docker build -t my-first-app:v1 .
+    - echo "Build Successful"
+
+  only:
+    - main
