@@ -1,17 +1,17 @@
 stages:
-  - build
+  - deploy
 
-docker_build:
-  stage: build
+deploy:
+  stage: deploy
 
   tags:
     - docker
 
   script:
-    - echo "Building Docker Image..."
-    - docker version
     - docker build -t my-first-app:v1 .
-    - echo "Build Successful"
+    - docker stop flask-container || true
+    - docker rm flask-container || true
+    - docker run -d --name flask-container -p 5003:5000 my-first-app:v1
 
   only:
     - main
