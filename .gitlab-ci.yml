@@ -1,17 +1,24 @@
 stages:
   - deploy
 
-deploy:
+deploy_app:
   stage: deploy
 
   tags:
     - docker
 
-  script:
-    - docker build -t my-first-app:v1 .
-    - docker stop flask-container || true
-    - docker rm flask-container || true
-    - docker run -d --name flask-container -p 5003:5000 my-first-app:v1
-
   only:
     - main
+
+  script:
+    - echo "===== Building Docker Image ====="
+    - docker build -t my-first-app:v1 .
+
+    - echo "===== Stopping Old Container ====="
+    - docker stop flask-container || true
+    - docker rm flask-container || true
+
+    - echo "===== Starting New Container ====="
+    - docker run -d --name flask-container -p 5003:5000 my-first-app:v1
+
+    - echo "===== Deployment Successful ====="
